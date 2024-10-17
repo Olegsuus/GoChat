@@ -1,0 +1,13 @@
+mongo:
+  uri: "mongodb://localhost:27017"
+  database: "auth"
+  timeout: 10
+  collection:
+    collection_name: "users"
+
+jwt:
+  secret: "XRf2CIvuB6JTH0+9Pa7DwJC7kFSLKX/kVWvlEd0VLPx4HQPOnc+OC5g0WOq8M1oqIEJUTS+0EDqUpLiaONx5Hg"
+  expiry: "24h"
+
+server:
+  port: "8765"
