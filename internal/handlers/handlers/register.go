@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"Auth/internal/models"
 	"context"
+	"github.com/Olegsuus/Auth/internal/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"

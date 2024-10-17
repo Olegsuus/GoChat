@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	models "Auth/internal/models"
+	models "github.com/Olegsuus/Auth/internal/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )

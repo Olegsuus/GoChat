@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"Auth/internal/handlers/handlers"
+	"github.com/Olegsuus/Auth/internal/handlers/handlers"
 	"github.com/gin-gonic/gin"
 )
 

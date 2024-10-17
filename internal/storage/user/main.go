@@ -1,7 +1,7 @@
 package storage
 
 import (
-	storage "Auth/internal/storage/mongo"
+	storage "github.com/Olegsuus/Auth/internal/storage/mongo"
 )
 
 type StorageUser struct {

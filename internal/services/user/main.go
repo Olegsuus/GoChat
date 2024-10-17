@@ -1,8 +1,8 @@
 package user
 
 import (
-	"Auth/internal/models"
 	"context"
+	"github.com/Olegsuus/Auth/internal/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log/slog"
 )

@@ -3,8 +3,8 @@ package handlers
 import (
 	"context"
 
-	"Auth/internal/models"
-	"Auth/internal/tokens"
+	"github.com/Olegsuus/Auth/internal/models"
+	"github.com/Olegsuus/Auth/internal/tokens"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

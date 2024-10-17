@@ -1,9 +1,9 @@
 package storage
 
 import (
-	"Auth/internal/config"
 	"context"
 	"fmt"
+	"github.com/Olegsuus/Auth/internal/config"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"

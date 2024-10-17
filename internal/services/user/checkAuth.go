@@ -1,10 +1,10 @@
 package user
 
 import (
-	"Auth/internal/models"
 	"context"
 	"errors"
 	"fmt"
+	"github.com/Olegsuus/Auth/internal/models"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
 	"log/slog"

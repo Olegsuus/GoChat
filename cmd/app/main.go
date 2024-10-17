@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"github.com/Olegsuus/Auth/internal/app"
 	"log"
 	"net/http"
 	"os"
@@ -10,8 +11,7 @@ import (
 	"syscall"
 	"time"
 
-	"Auth/internal/app"
-	"Auth/internal/config"
+	"github.com/Olegsuus/Auth/internal/config"
 )
 
 func main() {

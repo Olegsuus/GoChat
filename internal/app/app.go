@@ -8,13 +8,13 @@ import (
 	"os"
 	"time"
 
-	"Auth/internal/config"
-	handlers "Auth/internal/handlers/handlers"
-	routers "Auth/internal/handlers/routers"
-	services "Auth/internal/services/user"
-	db "Auth/internal/storage/mongo"
-	storage "Auth/internal/storage/user"
-	"Auth/internal/tokens"
+	"github.com/Olegsuus/Auth/internal/config"
+	handlers "github.com/Olegsuus/Auth/internal/handlers/handlers"
+	routers "github.com/Olegsuus/Auth/internal/handlers/routers"
+	services "github.com/Olegsuus/Auth/internal/services/user"
+	db "github.com/Olegsuus/Auth/internal/storage/mongo"
+	storage "github.com/Olegsuus/Auth/internal/storage/user"
+	"github.com/Olegsuus/Auth/internal/tokens"
 )
 
 type App struct {
