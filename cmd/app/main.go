@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"flag"
 	"github.com/Olegsuus/Auth/internal/app"
 	"log"
 	"net/http"
@@ -15,10 +14,10 @@ import (
 )
 
 func main() {
-	configPath := flag.String("config", "local.yaml", "Path to configuration file")
-	flag.Parse()
+	//configPath := flag.String("config", "local.yaml", "Path to configuration file")
+	//flag.Parse()
 
-	cfg, err := config.LoadConfig(*configPath)
+	cfg, err := config.LoadConfig()
 	if err != nil {
 		log.Fatalf("Ошибка загрузки конфигурации: %v", err)
 	}
