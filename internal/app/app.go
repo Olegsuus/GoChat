@@ -43,7 +43,7 @@ func NewApp(cfg *config.Config) (*App, error) {
 
 	tokenManager := tokens.NewJWTManager(cfg.JWT.Secret, tokenExpiry)
 
-	userHandler := handlers.RegisterHandlers(serviceUser, tokenManager)
+	userHandler := handlers.RegisterHandlers(serviceUser, tokenManager, cfg)
 
 	router := routers.SetupRoutes(userHandler, tokenManager)
 

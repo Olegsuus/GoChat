@@ -34,3 +34,9 @@ func (h *UserHandler) Login(c *gin.Context) {
 
 	c.JSON(http.StatusOK, response)
 }
+
+func (h *UserHandler) GoogleLogin(c *gin.Context) {
+	state := generateStateOauthCookie(c)
+	url := h.oauthConfig.AuthCodeURL(state)
+	c.Redirect(http.StatusTemporaryRedirect, url)
+}

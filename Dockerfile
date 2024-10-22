@@ -17,7 +17,7 @@ WORKDIR /root/
 COPY --from=builder /app/auth-service .
 
 
-COPY local.yaml ./config.yaml
+COPY example.yaml.example ./config.yaml
 
 EXPOSE 8765
 

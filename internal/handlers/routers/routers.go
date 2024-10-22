@@ -21,12 +21,15 @@ func SetupRoutes(userHandler *handlers.UserHandler, tokenManager *tokens.JWTMana
 	router.POST("/register", userHandler.Register)
 	router.POST("/login", userHandler.Login)
 	router.GET("/user/:email", userHandler.Get)
+	router.GET("/auth/google/login", userHandler.GoogleLogin)
+	router.GET("/auth/google/callback", userHandler.GoogleCallback)
 
 	authGroup := router.Group("/user")
 	authGroup.Use(middleware.AuthMiddleware(tokenManager))
 	{
 		authGroup.POST("/password/reset", userHandler.ResetPassword)
-		//authGroup.PATCH("/profile", userHandler.)
+		authGroup.PATCH("/profile", userHandler.UpdateProfile)
+		authGroup.DELETE("/user", userHandler.Remove)
 	}
 	return router
 }
