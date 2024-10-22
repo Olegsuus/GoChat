@@ -2,21 +2,15 @@ package handlers
 
 import (
 	"context"
+	handlers "github.com/Olegsuus/Auth/internal/handlers/dto"
 	"github.com/Olegsuus/Auth/internal/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
 )
 
-type RegisterNewUserDTO struct {
-	Name     string `json:"name"`
-	LastName string `json:"last_name"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
 func (h *UserHandler) Register(c *gin.Context) {
-	var dto RegisterNewUserDTO
+	var dto handlers.RegisterNewUserDTO
 
 	if err := c.ShouldBindJSON(&dto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Неверный формат данных"})

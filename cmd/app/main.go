@@ -14,9 +14,6 @@ import (
 )
 
 func main() {
-	//configPath := flag.String("config", "local.yaml", "Path to configuration file")
-	//flag.Parse()
-
 	cfg, err := config.LoadConfig()
 	if err != nil {
 		log.Fatalf("Ошибка загрузки конфигурации: %v", err)

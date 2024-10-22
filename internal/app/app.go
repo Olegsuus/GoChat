@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/Olegsuus/Auth/internal/config"
-	handlers "github.com/Olegsuus/Auth/internal/handlers/handlers"
 	routers "github.com/Olegsuus/Auth/internal/handlers/routers"
+	handlers "github.com/Olegsuus/Auth/internal/handlers/user"
 	services "github.com/Olegsuus/Auth/internal/services/user"
 	db "github.com/Olegsuus/Auth/internal/storage/mongo"
 	storage "github.com/Olegsuus/Auth/internal/storage/user"
@@ -45,7 +45,7 @@ func NewApp(cfg *config.Config) (*App, error) {
 
 	userHandler := handlers.RegisterHandlers(serviceUser, tokenManager)
 
-	router := routers.SetupRoutes(userHandler)
+	router := routers.SetupRoutes(userHandler, tokenManager)
 
 	addr := ":" + cfg.Server.Port
 
