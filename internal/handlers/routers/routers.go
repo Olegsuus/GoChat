@@ -1,6 +1,8 @@
 package routers
 
 import (
+	ChatHandler "github.com/Olegsuus/Auth/internal/handlers/chat"
+	messageHandlers "github.com/Olegsuus/Auth/internal/handlers/message"
 	"github.com/Olegsuus/Auth/internal/handlers/middleware"
 	"github.com/Olegsuus/Auth/internal/handlers/user"
 	"github.com/Olegsuus/Auth/internal/tokens"
@@ -8,7 +10,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRoutes(userHandler *handlers.UserHandler, tokenManager *tokens.JWTManager) *gin.Engine {
+func SetupRoutes(
+	userHandler *handlers.UserHandler,
+	tokenManager *tokens.JWTManager,
+	chatHandler *ChatHandler.ChatHandler,
+	messageHandler *messageHandlers.MessageHandler,
+) *gin.Engine {
 	router := gin.Default()
 
 	config := cors.DefaultConfig()
@@ -31,5 +38,20 @@ func SetupRoutes(userHandler *handlers.UserHandler, tokenManager *tokens.JWTMana
 		authGroup.PATCH("/profile", userHandler.UpdateProfile)
 		authGroup.DELETE("/user", userHandler.Remove)
 	}
+
+	chatGroup := router.Group("/chats")
+	chatGroup.Use(middleware.AuthMiddleware(tokenManager))
+	{
+		chatGroup.POST("/", chatHandler.Add)
+		chatGroup.GET("/:id", chatHandler.Get)
+	}
+
+	messageGroup := router.Group("/messages")
+	messageGroup.Use(middleware.AuthMiddleware(tokenManager))
+	{
+		messageGroup.POST("/", messageHandler.SendMessage)
+		messageGroup.GET("/chat/:chat_id", messageHandler.GetMessages)
+	}
+
 	return router
 }

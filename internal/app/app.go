@@ -9,9 +9,15 @@ import (
 	"time"
 
 	"github.com/Olegsuus/Auth/internal/config"
+	handlersChat "github.com/Olegsuus/Auth/internal/handlers/chat"
+	handlersMessage "github.com/Olegsuus/Auth/internal/handlers/message"
 	routers "github.com/Olegsuus/Auth/internal/handlers/routers"
 	handlers "github.com/Olegsuus/Auth/internal/handlers/user"
+	serviceChat "github.com/Olegsuus/Auth/internal/services/chat"
+	serviceMessage "github.com/Olegsuus/Auth/internal/services/message"
 	services "github.com/Olegsuus/Auth/internal/services/user"
+	storageChat "github.com/Olegsuus/Auth/internal/storage/chat"
+	storageMessage "github.com/Olegsuus/Auth/internal/storage/message"
 	db "github.com/Olegsuus/Auth/internal/storage/mongo"
 	storage "github.com/Olegsuus/Auth/internal/storage/user"
 	"github.com/Olegsuus/Auth/internal/tokens"
@@ -32,6 +38,15 @@ func NewApp(cfg *config.Config) (*App, error) {
 		return nil, err
 	}
 
+	chatStore := storageChat.RegisterStorageChat(mongoStorage)
+	messageStore := storageMessage.RegisterStorageMessage(mongoStorage)
+
+	chatSvc := serviceChat.RegisterChatService(chatStore, logger)
+	messageSvc := serviceMessage.RegisterServiceMessage(messageStore, logger)
+
+	chatHandler := handlersChat.RegisterChatHandler(chatSvc)
+	messageHandler := handlersMessage.RegisterMessageHandlers(messageSvc)
+
 	userStorage := storage.RegisterStorage(mongoStorage)
 
 	serviceUser := services.RegisterServices(userStorage, logger)
@@ -45,7 +60,7 @@ func NewApp(cfg *config.Config) (*App, error) {
 
 	userHandler := handlers.RegisterHandlers(serviceUser, tokenManager, cfg)
 
-	router := routers.SetupRoutes(userHandler, tokenManager)
+	router := routers.SetupRoutes(userHandler, tokenManager, chatHandler, messageHandler)
 
 	addr := ":" + cfg.Server.Port
 

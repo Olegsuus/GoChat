@@ -17,3 +17,12 @@ type ResetPasswordDTO struct {
 	SecretWord  string `json:"secret_word" binding:"required"`
 	NewPassword string `json:"new_password" binding:"required,min=6"`
 }
+
+type AddChatDTO struct {
+	ParticipantIDs []string `json:"participant_ids" binding:"required"`
+}
+
+type SendMessageDTO struct {
+	ChatID  string `json:"chat_id" binding:"required"`
+	Content string `json:"content" binding:"required"`
+}

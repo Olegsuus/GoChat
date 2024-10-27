@@ -11,6 +11,12 @@ import (
 	"time"
 )
 
+const (
+	UserCollection    = "users"
+	ChatCollection    = "chats"
+	MessageCollection = "messages"
+)
+
 type MongoStorage struct {
 	Client     *mongo.Client
 	DataBase   *mongo.Database
