@@ -22,7 +22,7 @@ func (s *StorageUser) UpdatePassword(ctx context.Context, id primitive.ObjectID,
 		},
 	}
 
-	_, err := s.db.Collection.UpdateOne(ctx, filter, update)
+	_, err := s.db.UserCollection.UpdateOne(ctx, filter, update)
 	if err != nil {
 		log.Printf("%s: %w", op, err)
 		return fmt.Errorf("ошибка при обновлении пароля: %w", err)
@@ -44,7 +44,7 @@ func (s *StorageUser) UpdateProfile(ctx context.Context, id primitive.ObjectID, 
 		"$set": updateDTO,
 	}
 
-	result, err := s.db.Collection.UpdateOne(ctx, filter, update)
+	result, err := s.db.UserCollection.UpdateOne(ctx, filter, update)
 	if err != nil {
 		log.Printf("%s: %w", op, err)
 		return fmt.Errorf("ошибка при обновлении профиля пользователя: %w", err)

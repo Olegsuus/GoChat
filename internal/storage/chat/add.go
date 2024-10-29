@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/Olegsuus/Auth/internal/models"
-	storage "github.com/Olegsuus/Auth/internal/storage/mongo"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 	"time"
@@ -16,7 +15,7 @@ func (s *ChatStorage) Add(ctx context.Context, chat *models.Chat) (primitive.Obj
 	chat.CreatedAt = time.Now()
 	chat.UpdatedAt = time.Now()
 
-	result, err := s.db.DataBase.Collection(storage.ChatCollection).InsertOne(ctx, chat)
+	result, err := s.db.ChatCollection.InsertOne(ctx, chat)
 	if err != nil {
 		log.Printf("%s: %w", op, err)
 		return primitive.NilObjectID, fmt.Errorf("ошибка при создании чата: %s", err)

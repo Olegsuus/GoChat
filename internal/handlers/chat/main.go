@@ -2,12 +2,15 @@ package handlers
 
 import (
 	"context"
+	messageHandlers "github.com/Olegsuus/Auth/internal/handlers/message"
+	ws "github.com/Olegsuus/Auth/internal/handlers/ws"
 	"github.com/Olegsuus/Auth/internal/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type ChatHandler struct {
 	csP ChatServiceProvider
+	hub *ws.Hub
 }
 
 type ChatServiceProvider interface {
@@ -15,8 +18,11 @@ type ChatServiceProvider interface {
 	Get(ctx context.Context, id primitive.ObjectID) (*models.Chat, error)
 }
 
-func RegisterChatHandler(csP ChatServiceProvider) *ChatHandler {
+func RegisterChatHandler(csP ChatServiceProvider, msP messageHandlers.MessageServiceProvider) *ChatHandler {
+	hub := ws.NewHub(msP)
+	go hub.Run()
 	return &ChatHandler{
 		csP: csP,
+		hub: hub,
 	}
 }

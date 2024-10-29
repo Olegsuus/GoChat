@@ -2,16 +2,12 @@ package config
 
 import (
 	"github.com/spf13/viper"
-	"os"
 )
 
 type MongoSetting struct {
-	URI        string `mapstructure:"uri" yaml:"uri"`
-	DBNAME     string `mapstructure:"database" yaml:"database"`
-	Timeout    int    `mapstructure:"timeout" yaml:"timeout"`
-	Collection struct {
-		Name string `mapstructure:"collection_name" yaml:"collection_name"`
-	} `mapstructure:"collection" yaml:"collection"`
+	URI     string `mapstructure:"uri" yaml:"uri"`
+	DBNAME  string `mapstructure:"database" yaml:"database"`
+	Timeout int    `mapstructure:"timeout" yaml:"timeout"`
 }
 
 type GoogleConfig struct {
@@ -53,11 +49,6 @@ func LoadConfig() (*Config, error) {
 	if err := viper.Unmarshal(&config); err != nil {
 		return nil, err
 	}
-
-	config.Mongo.URI = os.Getenv("MONGO_URI")
-	config.JWT.Secret = os.Getenv("JWT_SECRET")
-	config.JWT.Expiry = os.Getenv("JWT_EXPIRY")
-	config.Server.Port = os.Getenv("SERVER_PORT")
 
 	return &config, nil
 }

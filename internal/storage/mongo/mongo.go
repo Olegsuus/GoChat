@@ -18,9 +18,11 @@ const (
 )
 
 type MongoStorage struct {
-	Client     *mongo.Client
-	DataBase   *mongo.Database
-	Collection *mongo.Collection
+	Client            *mongo.Client
+	DataBase          *mongo.Database
+	UserCollection    *mongo.Collection
+	ChatCollection    *mongo.Collection
+	MessageCollection *mongo.Collection
 }
 
 func NewMongoStorage(cfg *config.Config) (*MongoStorage, error) {
@@ -38,14 +40,17 @@ func NewMongoStorage(cfg *config.Config) (*MongoStorage, error) {
 	}
 
 	db := client.Database(cfg.Mongo.DBNAME)
-	collection := db.Collection(cfg.Mongo.Collection.Name)
+
+	userCollection := db.Collection(UserCollection)
+	chatCollection := db.Collection(ChatCollection)
+	messageCollection := db.Collection(MessageCollection)
 
 	indexModel := mongo.IndexModel{
 		Keys:    bson.M{"email": 1},
 		Options: options.Index().SetUnique(true).SetName("unique_email"),
 	}
 
-	_, err = collection.Indexes().CreateOne(ctx, indexModel)
+	_, err = userCollection.Indexes().CreateOne(ctx, indexModel)
 	if err != nil {
 		return nil, fmt.Errorf("ошибка создаия индекса на email: %w", err)
 	}
@@ -53,9 +58,11 @@ func NewMongoStorage(cfg *config.Config) (*MongoStorage, error) {
 	log.Println("Подключение к MongoDB установлено")
 
 	return &MongoStorage{
-		Client:     client,
-		DataBase:   db,
-		Collection: collection,
+		Client:            client,
+		DataBase:          db,
+		UserCollection:    userCollection,
+		ChatCollection:    chatCollection,
+		MessageCollection: messageCollection,
 	}, nil
 }
 

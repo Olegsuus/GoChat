@@ -14,7 +14,7 @@ import (
 func (s *MessageStorage) Add(ctx context.Context, message *models.Message) (primitive.ObjectID, error) {
 	const op = "storage.AddMessage"
 
-	result, err := s.db.DataBase.Collection(storage.MessageCollection).InsertOne(ctx, message)
+	result, err := s.db.MessageCollection.InsertOne(ctx, message)
 	if err != nil {
 		log.Printf("%s: %w", op, err)
 		return primitive.NilObjectID, fmt.Errorf("ошибка при добавлении сообщений в чат: %s", err)

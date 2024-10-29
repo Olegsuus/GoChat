@@ -3,16 +3,16 @@ package app
 import (
 	"context"
 	"fmt"
+	handlersChat "github.com/Olegsuus/Auth/internal/handlers/chat"
+	handlersMessage "github.com/Olegsuus/Auth/internal/handlers/message"
+	"github.com/Olegsuus/Auth/internal/handlers/routers"
+	"github.com/Olegsuus/Auth/internal/handlers/user"
 	"log/slog"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/Olegsuus/Auth/internal/config"
-	handlersChat "github.com/Olegsuus/Auth/internal/handlers/chat"
-	handlersMessage "github.com/Olegsuus/Auth/internal/handlers/message"
-	routers "github.com/Olegsuus/Auth/internal/handlers/routers"
-	handlers "github.com/Olegsuus/Auth/internal/handlers/user"
 	serviceChat "github.com/Olegsuus/Auth/internal/services/chat"
 	serviceMessage "github.com/Olegsuus/Auth/internal/services/message"
 	services "github.com/Olegsuus/Auth/internal/services/user"
@@ -44,7 +44,7 @@ func NewApp(cfg *config.Config) (*App, error) {
 	chatSvc := serviceChat.RegisterChatService(chatStore, logger)
 	messageSvc := serviceMessage.RegisterServiceMessage(messageStore, logger)
 
-	chatHandler := handlersChat.RegisterChatHandler(chatSvc)
+	chatHandler := handlersChat.RegisterChatHandler(chatSvc, messageSvc)
 	messageHandler := handlersMessage.RegisterMessageHandlers(messageSvc)
 
 	userStorage := storage.RegisterStorage(mongoStorage)

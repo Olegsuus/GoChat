@@ -4,7 +4,7 @@ import (
 	ChatHandler "github.com/Olegsuus/Auth/internal/handlers/chat"
 	messageHandlers "github.com/Olegsuus/Auth/internal/handlers/message"
 	"github.com/Olegsuus/Auth/internal/handlers/middleware"
-	"github.com/Olegsuus/Auth/internal/handlers/user"
+	handlers "github.com/Olegsuus/Auth/internal/handlers/user"
 	"github.com/Olegsuus/Auth/internal/tokens"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -44,6 +44,7 @@ func SetupRoutes(
 	{
 		chatGroup.POST("/", chatHandler.Add)
 		chatGroup.GET("/:id", chatHandler.Get)
+		chatGroup.GET("/ws", chatHandler.ServeWS)
 	}
 
 	messageGroup := router.Group("/messages")

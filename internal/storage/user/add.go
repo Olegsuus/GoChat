@@ -13,7 +13,7 @@ import (
 func (s *StorageUser) Add(ctx context.Context, user *models.User) (primitive.ObjectID, error) {
 	const op = "storage.Add"
 
-	result, err := s.db.Collection.InsertOne(ctx, user)
+	result, err := s.db.UserCollection.InsertOne(ctx, user)
 	if err != nil {
 		if mongo.IsDuplicateKeyError(err) {
 			return primitive.NilObjectID, fmt.Errorf("пользователь с таким email уже существует")

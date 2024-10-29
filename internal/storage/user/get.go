@@ -15,7 +15,7 @@ func (s *StorageUser) Get(ctx context.Context, email string) (*models.User, erro
 	filter := bson.M{"email": email}
 
 	var user models.User
-	err := s.db.Collection.FindOne(ctx, filter).Decode(&user)
+	err := s.db.UserCollection.FindOne(ctx, filter).Decode(&user)
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
 			return nil, fmt.Errorf("не найден пользователь с такой почтой: %w", err)

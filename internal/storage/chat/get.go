@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/Olegsuus/Auth/internal/models"
-	storage "github.com/Olegsuus/Auth/internal/storage/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
@@ -14,7 +13,7 @@ func (s *ChatStorage) Get(ctx context.Context, id primitive.ObjectID) (*models.C
 	const op = "storage.GetChat"
 
 	var chat models.Chat
-	err := s.db.DataBase.Collection(storage.ChatCollection).FindOne(ctx, bson.M{"_id": id}).Decode(&chat)
+	err := s.db.ChatCollection.FindOne(ctx, bson.M{"_id": id}).Decode(&chat)
 	if err != nil {
 		log.Printf("%s: %w", op, err)
 		return nil, fmt.Errorf("ошибка при получении чата по id: %s", err)

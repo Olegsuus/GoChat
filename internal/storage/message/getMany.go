@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/Olegsuus/Auth/internal/models"
-	storage "github.com/Olegsuus/Auth/internal/storage/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	options2 "go.mongodb.org/mongo-driver/mongo/options"
@@ -17,7 +16,7 @@ func (s *MessageStorage) GetMany(ctx context.Context, chatID primitive.ObjectID)
 	filter := bson.M{"chat_id": chatID}
 	options := options2.Find().SetSort(bson.D{{"created_at", 1}})
 
-	cursor, err := s.db.DataBase.Collection(storage.MessageCollection).Find(ctx, filter, options)
+	cursor, err := s.db.MessageCollection.Find(ctx, filter, options)
 	if err != nil {
 		log.Printf("%s: %w", op, err)
 		return nil, fmt.Errorf("ошибка получения сообщений чата")

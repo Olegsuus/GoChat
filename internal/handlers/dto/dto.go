@@ -2,14 +2,14 @@ package handlers
 
 type LoginDTO struct {
 	Email    string `json:"email"`
-	Password string `json:"new_password" binding:"required,min=6"`
+	Password string `json:"password" binding:"required,min=6"`
 }
 
 type RegisterNewUserDTO struct {
 	Name     string `json:"name"`
 	LastName string `json:"last_name"`
 	Email    string `json:"email"`
-	Password string `json:"password"`
+	Password string `json:"password" binding:"required,min=6"`
 }
 
 type ResetPasswordDTO struct {

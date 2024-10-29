@@ -12,7 +12,7 @@ func (s *StorageUser) Remove(ctx context.Context, id primitive.ObjectID) error {
 	const op = "storage_remove"
 
 	filter := bson.M{"_id": id}
-	result, err := s.db.Collection.DeleteOne(ctx, filter)
+	result, err := s.db.UserCollection.DeleteOne(ctx, filter)
 	if err != nil {
 		log.Println("ошибка при удалении пользователя", err, "op:", op)
 		return fmt.Errorf("ошибка при удалении пользователя: %w", err)
