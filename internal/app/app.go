@@ -7,6 +7,7 @@ import (
 	handlersMessage "github.com/Olegsuus/Auth/internal/handlers/message"
 	"github.com/Olegsuus/Auth/internal/handlers/routers"
 	"github.com/Olegsuus/Auth/internal/handlers/user"
+	"github.com/Olegsuus/Auth/internal/tokens/jwt"
 	"log/slog"
 	"net/http"
 	"os"
@@ -20,7 +21,6 @@ import (
 	storageMessage "github.com/Olegsuus/Auth/internal/storage/message"
 	db "github.com/Olegsuus/Auth/internal/storage/mongo"
 	storage "github.com/Olegsuus/Auth/internal/storage/user"
-	"github.com/Olegsuus/Auth/internal/tokens"
 )
 
 type App struct {
@@ -56,7 +56,7 @@ func NewApp(cfg *config.Config) (*App, error) {
 		return nil, fmt.Errorf("не удалось распарсить срок действия токена: %w", err)
 	}
 
-	tokenManager := tokens.NewJWTManager(cfg.JWT.Secret, tokenExpiry)
+	tokenManager := jwt.NewJWTManager(cfg.JWT.Secret, tokenExpiry)
 
 	userHandler := handlers.RegisterHandlers(serviceUser, tokenManager, cfg)
 

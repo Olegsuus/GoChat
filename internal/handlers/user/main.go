@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"encoding/base64"
+	"github.com/Olegsuus/Auth/internal/tokens/jwt"
 	"time"
 
 	"crypto/rand"
@@ -12,13 +13,12 @@ import (
 	"golang.org/x/oauth2/google"
 
 	"github.com/Olegsuus/Auth/internal/models"
-	"github.com/Olegsuus/Auth/internal/tokens"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type UserHandler struct {
 	hP           HandlerProvider
-	tokenManager *tokens.JWTManager
+	tokenManager *jwt.JWTManager
 	oauthConfig  *oauth2.Config
 }
 
@@ -32,7 +32,7 @@ type HandlerProvider interface {
 	Remove(ctx context.Context, id primitive.ObjectID) error
 }
 
-func RegisterHandlers(hP HandlerProvider, tokenManager *tokens.JWTManager, cfg *config.Config) *UserHandler {
+func RegisterHandlers(hP HandlerProvider, tokenManager *jwt.JWTManager, cfg *config.Config) *UserHandler {
 	oauthConfig := &oauth2.Config{
 		RedirectURL:  cfg.Google.RedirectUrl,
 		ClientID:     cfg.Google.ClientID,

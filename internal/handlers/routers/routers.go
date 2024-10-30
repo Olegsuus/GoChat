@@ -5,14 +5,14 @@ import (
 	messageHandlers "github.com/Olegsuus/Auth/internal/handlers/message"
 	"github.com/Olegsuus/Auth/internal/handlers/middleware"
 	handlers "github.com/Olegsuus/Auth/internal/handlers/user"
-	"github.com/Olegsuus/Auth/internal/tokens"
+	"github.com/Olegsuus/Auth/internal/tokens/jwt"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func SetupRoutes(
 	userHandler *handlers.UserHandler,
-	tokenManager *tokens.JWTManager,
+	tokenManager *jwt.JWTManager,
 	chatHandler *ChatHandler.ChatHandler,
 	messageHandler *messageHandlers.MessageHandler,
 ) *gin.Engine {
