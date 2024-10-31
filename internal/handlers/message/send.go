@@ -23,7 +23,7 @@ func (h *MessageHandler) SendMessage(c *gin.Context) {
 
 	userIDStr, exists := c.Get("userID")
 	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Неавторизован"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Неавторизованный"})
 		return
 	}
 
