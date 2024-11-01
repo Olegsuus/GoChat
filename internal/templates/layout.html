@@ -1,0 +1,31 @@
+<!-- internal/templates/layout.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ block "title" . }}Онлайн Чат{{ end }}</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            {{ if .User }}
+            <li><a href="/profile">Профиль ({{ .User.Name }})</a></li>
+            <li><a href="/chats">Чаты</a></li>
+            <li><a href="/logout">Выйти</a></li>
+            {{ else }}
+            <li><a href="/login">Вход</a></li>
+            <li><a href="/register">Регистрация</a></li>
+            {{ end }}
+        </ul>
+    </nav>
+</header>
+
+<main>
+    {{ block "content" . }}{{ end }}
+</main>
+
+<script src="/static/js/chat.js"></script>
+</body>
+</html>

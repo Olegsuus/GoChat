@@ -1,13 +1,15 @@
+// internal/app/app.go
 package app
 
 import (
 	"context"
 	"fmt"
-	handlersChat "github.com/Olegsuus/Auth/internal/handlers/chat"
-	handlersMessage "github.com/Olegsuus/Auth/internal/handlers/message"
+	"github.com/Olegsuus/Auth/internal/handlers/chat"
+	messageHandlers "github.com/Olegsuus/Auth/internal/handlers/message"
 	"github.com/Olegsuus/Auth/internal/handlers/routers"
-	"github.com/Olegsuus/Auth/internal/handlers/user"
+	HandlerUser "github.com/Olegsuus/Auth/internal/handlers/user"
 	"github.com/Olegsuus/Auth/internal/tokens/jwt"
+
 	"log/slog"
 	"net/http"
 	"os"
@@ -26,7 +28,7 @@ import (
 type App struct {
 	Server      *http.Server
 	Logger      *slog.Logger
-	UserHandler *handlers.UserHandler
+	UserHandler *HandlerUser.UserHandler
 }
 
 func NewApp(cfg *config.Config) (*App, error) {
@@ -44,8 +46,8 @@ func NewApp(cfg *config.Config) (*App, error) {
 	chatSvc := serviceChat.RegisterChatService(chatStore, logger)
 	messageSvc := serviceMessage.RegisterServiceMessage(messageStore, logger)
 
-	chatHandler := handlersChat.RegisterChatHandler(chatSvc, messageSvc)
-	messageHandler := handlersMessage.RegisterMessageHandlers(messageSvc)
+	chatHandler := handlers.RegisterChatHandler(chatSvc, messageSvc)
+	messageHandler := messageHandlers.RegisterMessageHandlers(messageSvc)
 
 	userStorage := storage.RegisterStorage(mongoStorage)
 
@@ -58,9 +60,10 @@ func NewApp(cfg *config.Config) (*App, error) {
 
 	tokenManager := jwt.NewJWTManager(cfg.JWT.Secret, tokenExpiry)
 
-	userHandler := handlers.RegisterHandlers(serviceUser, tokenManager, cfg)
+	userHandler := HandlerUser.RegisterHandlers(serviceUser, tokenManager, cfg)
 
-	router := routers.SetupRoutes(userHandler, tokenManager, chatHandler, messageHandler)
+	// Настройка маршрутов с передачей userService
+	router := routers.SetupRoutes(userHandler, tokenManager, chatHandler, messageHandler, serviceUser)
 
 	addr := ":" + cfg.Server.Port
 

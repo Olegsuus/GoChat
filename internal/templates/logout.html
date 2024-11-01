@@ -1,0 +1,16 @@
+<!-- internal/templates/logout.html -->
+{{ define "title" }}Выход{{ end }}
+{{ template "layout.html" . }}
+
+{{ define "content" }}
+<div class="container">
+    <h2>Выход из системы</h2>
+    <p>Вы успешно вышли из системы.</p>
+</div>
+
+<script>
+    // Очистка токена и перенаправление на страницу входа
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+</script>
+{{ end }}

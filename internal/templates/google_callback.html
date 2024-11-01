@@ -1,0 +1,21 @@
+<!-- internal/templates/google_callback.html -->
+{{ define "title" }}Авторизация через Google{{ end }}
+{{ template "layout.html" . }}
+
+{{ define "content" }}
+<div class="container">
+    <h2>Авторизация через Google</h2>
+    <div id="callbackStatus">Завершение аутентификации...</div>
+</div>
+
+<script>
+    const token = new URLSearchParams(window.location.search).get('token');
+
+    if (token) {
+        localStorage.setItem('token', token);
+        window.location.href = '/chats';
+    } else {
+        document.getElementById('callbackStatus').innerText = 'Ошибка аутентификации через Google';
+    }
+</script>
+{{ end }}
