@@ -3,8 +3,8 @@ package storage
 import (
 	"context"
 	"fmt"
-	"github.com/Olegsuus/Auth/internal/models"
-	storage "github.com/Olegsuus/Auth/internal/storage/mongo"
+	"github.com/Olegsuus/GoChat/internal/models"
+	storage "github.com/Olegsuus/GoChat/internal/storage/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"

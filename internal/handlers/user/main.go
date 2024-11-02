@@ -3,16 +3,16 @@ package handlers
 import (
 	"context"
 	"encoding/base64"
-	"github.com/Olegsuus/Auth/internal/tokens/jwt"
+	"github.com/Olegsuus/GoChat/internal/tokens/jwt"
 	"time"
 
 	"crypto/rand"
-	"github.com/Olegsuus/Auth/internal/config"
+	"github.com/Olegsuus/GoChat/internal/config"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 
-	"github.com/Olegsuus/Auth/internal/models"
+	"github.com/Olegsuus/GoChat/internal/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

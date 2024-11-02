@@ -1,14 +1,26 @@
 package handlers
 
 import (
-	handlers "github.com/Olegsuus/Auth/internal/handlers/dto"
+	"github.com/Olegsuus/GoChat/internal/handlers/dto"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
 )
 
+// Add godoc
+// @Summary      	Создание нового чата
+// @Description  	Создает новый чат с указанными участниками
+// @Tags         	Чаты
+// @Accept       	json
+// @Produce      	json
+// @Security     	BearerAuth
+// @Param        	chat  body   dto.AddChatDTO  true  "ID участников чата"
+// @Success 		200  "OK"
+// @Failure 		400 "Неверные данные запроса"
+// @Failure 		500  "Ошибка на сервере"
+// @Router       	/chats [post]
 func (h *ChatHandler) Add(c *gin.Context) {
-	var dto handlers.AddChatDTO
+	var dto dto.AddChatDTO
 
 	if err := c.ShouldBindJSON(&dto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Неверный формат данных"})
@@ -31,8 +43,8 @@ func (h *ChatHandler) Add(c *gin.Context) {
 		return
 	}
 
-	response := gin.H{
-		"chat": chat,
+	response := handlers.ChatResponse{
+		Chat: chat,
 	}
 
 	c.JSON(http.StatusOK, response)

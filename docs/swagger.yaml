@@ -1,0 +1,389 @@
+basePath: /api
+definitions:
+  github_com_Olegsuus_GoChat_internal_handlers_dto.AddChatDTO:
+    properties:
+      participant_ids:
+        items:
+          type: string
+        type: array
+    required:
+    - participant_ids
+    type: object
+  github_com_Olegsuus_GoChat_internal_handlers_dto.LoginDTO:
+    properties:
+      email:
+        type: string
+      password:
+        minLength: 6
+        type: string
+    required:
+    - password
+    type: object
+  github_com_Olegsuus_GoChat_internal_handlers_dto.RegisterNewUserDTO:
+    properties:
+      email:
+        type: string
+      last_name:
+        type: string
+      name:
+        type: string
+      password:
+        minLength: 6
+        type: string
+    required:
+    - password
+    type: object
+  github_com_Olegsuus_GoChat_internal_handlers_dto.ResetPasswordDTO:
+    properties:
+      email:
+        type: string
+      new_password:
+        minLength: 6
+        type: string
+      secret_word:
+        type: string
+    required:
+    - email
+    - new_password
+    - secret_word
+    type: object
+  github_com_Olegsuus_GoChat_internal_handlers_dto.SendMessageDTO:
+    properties:
+      chat_id:
+        type: string
+      content:
+        type: string
+    required:
+    - chat_id
+    - content
+    type: object
+  github_com_Olegsuus_GoChat_internal_models.UpdateUserDTO:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      email:
+        type: string
+      last_name:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+    type: object
+host: localhost:8765
+info:
+  contact:
+    email: support@example.com
+    name: API Support
+    url: http://www.example.com/support
+  description: API для аутентификации пользователей и онлайн-чата с WebSocket.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://example.com/terms/
+  title: Chat API
+  version: "1.0"
+paths:
+  /auth/google/callback:
+    get:
+      consumes:
+      - application/json
+      description: Обрабатывает ответ от Google после аутентификации и генерирует
+        JWT-токен
+      parameters:
+      - description: Код авторизации от Google
+        in: query
+        name: code
+        required: true
+        type: string
+      - description: Состояние запроса
+        in: query
+        name: state
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Неверные данные запроса
+        "500":
+          description: Ошибка на сервере
+      summary: Обратный вызов после аутентификации через Google
+      tags:
+      - Аутентификация
+  /auth/google/login:
+    get:
+      consumes:
+      - application/json
+      description: Перенаправляет пользователя на страницу авторизации Google
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Ошибка на сервере
+      summary: Вход через Google
+      tags:
+      - Аутентификация
+  /chats:
+    post:
+      consumes:
+      - application/json
+      description: Создает новый чат с указанными участниками
+      parameters:
+      - description: ID участников чата
+        in: body
+        name: chat
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Olegsuus_GoChat_internal_handlers_dto.AddChatDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Неверные данные запроса
+        "500":
+          description: Ошибка на сервере
+      security:
+      - BearerAuth: []
+      summary: Создание нового чата
+      tags:
+      - Чаты
+  /chats/ws:
+    get:
+      consumes:
+      - application/json
+      description: Устанавливает WebSocket соединение для обмена сообщениями в реальном
+        времени
+      parameters:
+      - description: ID чата
+        in: query
+        name: chat_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Неверные данные запроса
+        "500":
+          description: Ошибка на сервере
+      security:
+      - BearerAuth: []
+      summary: Установление WebSocket соединения для чата
+      tags:
+      - Чаты
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Проверяет учетные данные пользователя и возвращает JWT-токен
+      parameters:
+      - description: Учетные данные пользователя
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Olegsuus_GoChat_internal_handlers_dto.LoginDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Неверные данные запроса
+        "500":
+          description: Ошибка на сервере
+      summary: Аутентификация пользователя
+      tags:
+      - Пользователи
+  /messages:
+    post:
+      consumes:
+      - application/json
+      description: Отправляет сообщение в указанный чат
+      parameters:
+      - description: Данные сообщения
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Olegsuus_GoChat_internal_handlers_dto.SendMessageDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Неверные данные запроса
+        "500":
+          description: Ошибка на сервере
+      security:
+      - BearerAuth: []
+      summary: Отправка сообщения в чат
+      tags:
+      - Сообщения
+  /messages/chat/{chat_id}:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает все сообщения из указанного чата
+      parameters:
+      - description: ID чата
+        in: path
+        name: chat_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Неверные данные запроса
+        "500":
+          description: Ошибка на сервере
+      security:
+      - BearerAuth: []
+      summary: Получение сообщений из чата
+      tags:
+      - Сообщения
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Создает нового пользователя в системе
+      parameters:
+      - description: Данные нового пользователя
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Olegsuus_GoChat_internal_handlers_dto.RegisterNewUserDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Неверные данные запроса
+        "500":
+          description: Ошибка на сервере
+      summary: Регистрация нового пользователя
+      tags:
+      - Пользователи
+  /user/{email}:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает информацию о пользователе по email
+      parameters:
+      - description: Email пользователя
+        in: path
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Неверные данные запроса
+        "500":
+          description: Ошибка на сервере
+      summary: Получение информации о пользователе
+      tags:
+      - Пользователи
+  /user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет пользователя по ID
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Неверные данные запроса
+        "500":
+          description: Ошибка на сервере
+      security:
+      - BearerAuth: []
+      summary: Удаление пользователя
+      tags:
+      - Пользователи
+  /user/password/reset:
+    post:
+      consumes:
+      - application/json
+      description: Позволяет пользователю сбросить пароль, используя секретное слово
+      parameters:
+      - description: Данные для сброса пароля
+        in: body
+        name: reset
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Olegsuus_GoChat_internal_handlers_dto.ResetPasswordDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Неверные данные запроса
+        "500":
+          description: Ошибка на сервере
+      security:
+      - BearerAuth: []
+      summary: Сброс пароля пользователя
+      tags:
+      - Пользователи
+  /user/profile:
+    patch:
+      consumes:
+      - application/json
+      description: Обновляет данные профиля пользователя
+      parameters:
+      - description: Данные для обновления профиля
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Olegsuus_GoChat_internal_models.UpdateUserDTO'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Неверные данные запроса
+        "500":
+          description: Ошибка на сервере
+      security:
+      - BearerAuth: []
+      summary: Обновление профиля пользователя
+      tags:
+      - Пользователи
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

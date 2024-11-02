@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Olegsuus/Auth/internal/models"
+	"github.com/Olegsuus/GoChat/internal/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

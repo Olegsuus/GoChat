@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"context"
-	services "github.com/Olegsuus/Auth/internal/services/user"
-	"github.com/Olegsuus/Auth/internal/tokens/jwt"
+	services "github.com/Olegsuus/GoChat/internal/services/user"
+	"github.com/Olegsuus/GoChat/internal/tokens/jwt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

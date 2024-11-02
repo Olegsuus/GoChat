@@ -1,14 +1,26 @@
 package handlers
 
 import (
-	handlers "github.com/Olegsuus/Auth/internal/handlers/dto"
+	"github.com/Olegsuus/GoChat/internal/handlers/dto"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
 )
 
+// SendMessage godoc
+// @Summary      Отправка сообщения в чат
+// @Description  Отправляет сообщение в указанный чат
+// @Tags         Сообщения
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        message  body      dto.SendMessageDTO  true  "Данные сообщения"
+// @Success 	 200  "OK"
+// @Failure 	 400 "Неверные данные запроса"
+// @Failure 	 500  "Ошибка на сервере"
+// @Router       /messages [post]
 func (h *MessageHandler) SendMessage(c *gin.Context) {
-	var dto handlers.SendMessageDTO
+	var dto dto.SendMessageDTO
 
 	if err := c.ShouldBindJSON(&dto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Неверный формат данных"})

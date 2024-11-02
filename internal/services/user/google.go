@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/Olegsuus/Auth/internal/models"
+	"github.com/Olegsuus/GoChat/internal/models"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log/slog"
 	"time"

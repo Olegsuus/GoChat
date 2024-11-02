@@ -2,14 +2,25 @@ package handlers
 
 import (
 	"context"
-	handlers "github.com/Olegsuus/Auth/internal/handlers/dto"
+	"github.com/Olegsuus/GoChat/internal/handlers/dto"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
+// Login godoc
+// @Summary      Аутентификация пользователя
+// @Description  Проверяет учетные данные пользователя и возвращает JWT-токен
+// @Tags         Пользователи
+// @Accept       json
+// @Produce      json
+// @Param        credentials  body      dto.LoginDTO  true  "Учетные данные пользователя"
+// @Success 	 200  "OK"
+// @Failure 	 400 "Неверные данные запроса"
+// @Failure 	 500  "Ошибка на сервере"
+// @Router       /login [post]
 func (h *UserHandler) Login(c *gin.Context) {
-	var dto handlers.LoginDTO
+	var dto dto.LoginDTO
 
 	if err := c.ShouldBindJSON(&dto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Неверный формат данных"})
@@ -35,6 +46,15 @@ func (h *UserHandler) Login(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// GoogleLogin godoc
+// @Summary			Вход через Google
+// @Description		Перенаправляет пользователя на страницу авторизации Google
+// @Tags			Аутентификация
+// @Accept			json
+// @Produce			json
+// @Success 	 	200  "OK"
+// @Failure 	 	500  "Ошибка на сервере"
+// @Router       	/auth/google/login [get]
 func (h *UserHandler) GoogleLogin(c *gin.Context) {
 	state := generateStateOauthCookie(c)
 	url := h.oauthConfig.AuthCodeURL(state)

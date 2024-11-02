@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"github.com/Olegsuus/Auth/internal/handlers/ws"
+	"github.com/Olegsuus/GoChat/internal/handlers/ws"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -14,6 +14,18 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
+// ServeWS godoc
+// @Summary      Установление WebSocket соединения для чата
+// @Description  Устанавливает WebSocket соединение для обмена сообщениями в реальном времени
+// @Tags         Чаты
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        chat_id  query     string  true  "ID чата"
+// @Success 	200  "OK"
+// @Failure 	400 "Неверные данные запроса"
+// @Failure 	500  "Ошибка на сервере"
+// @Router       /chats/ws [get]
 func (h *ChatHandler) ServeWS(c *gin.Context) {
 	userIDStr, exists := c.Get("id")
 	if !exists {

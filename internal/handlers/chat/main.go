@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"context"
-	messageHandlers "github.com/Olegsuus/Auth/internal/handlers/message"
-	ws "github.com/Olegsuus/Auth/internal/handlers/ws"
-	"github.com/Olegsuus/Auth/internal/models"
+	messageHandlers "github.com/Olegsuus/GoChat/internal/handlers/message"
+	ws "github.com/Olegsuus/GoChat/internal/handlers/ws"
+	"github.com/Olegsuus/GoChat/internal/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

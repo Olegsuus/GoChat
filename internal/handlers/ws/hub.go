@@ -2,7 +2,7 @@ package ws
 
 import (
 	"context"
-	messageHandlers "github.com/Olegsuus/Auth/internal/handlers/message"
+	messageHandlers "github.com/Olegsuus/GoChat/internal/handlers/message"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 	"sync"

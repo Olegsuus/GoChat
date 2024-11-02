@@ -2,11 +2,23 @@ package handlers
 
 import (
 	"encoding/json"
-	"github.com/Olegsuus/Auth/internal/models"
+	"github.com/Olegsuus/GoChat/internal/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
+// GoogleCallback godoc
+// @Summary      Обратный вызов после аутентификации через Google
+// @Description  Обрабатывает ответ от Google после аутентификации и генерирует JWT-токен
+// @Tags         Аутентификация
+// @Accept       json
+// @Produce      json
+// @Param        code   query     	string  true  "Код авторизации от Google"
+// @Param        state  query     	string  true  "Состояние запроса"
+// @Success 	 200  "OK"
+// @Failure 	 400 "Неверные данные запроса"
+// @Failure 	 500  "Ошибка на сервере"
+// @Router       /auth/google/callback [get]
 func (h *UserHandler) GoogleCallback(c *gin.Context) {
 	stateSaved, err := c.Cookie("oauthstate")
 	if err != nil {

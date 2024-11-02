@@ -2,17 +2,34 @@ package main
 
 import (
 	"context"
-	"github.com/Olegsuus/Auth/internal/app"
+	"github.com/Olegsuus/GoChat/internal/app"
+	"github.com/Olegsuus/GoChat/internal/config"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
-
-	"github.com/Olegsuus/Auth/internal/config"
 )
 
+// @title           Chat API
+// @version         1.0
+// @description     API для аутентификации пользователей и онлайн-чата с WebSocket.
+// @termsOfService  http://example.com/terms/
+
+// @contact.name   API Support
+// @contact.url    http://www.example.com/support
+// @contact.email  support@example.com
+
+// @license.name  MIT
+// @license.url   https://opensource.org/licenses/MIT
+
+// @host      localhost:8765
+// @BasePath  /api
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func main() {
 	cfg, err := config.LoadConfig()
 	if err != nil {

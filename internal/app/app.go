@@ -4,25 +4,25 @@ package app
 import (
 	"context"
 	"fmt"
-	"github.com/Olegsuus/Auth/internal/handlers/chat"
-	messageHandlers "github.com/Olegsuus/Auth/internal/handlers/message"
-	"github.com/Olegsuus/Auth/internal/handlers/routers"
-	HandlerUser "github.com/Olegsuus/Auth/internal/handlers/user"
-	"github.com/Olegsuus/Auth/internal/tokens/jwt"
+	"github.com/Olegsuus/GoChat/internal/handlers/chat"
+	messageHandlers "github.com/Olegsuus/GoChat/internal/handlers/message"
+	"github.com/Olegsuus/GoChat/internal/handlers/routers"
+	HandlerUser "github.com/Olegsuus/GoChat/internal/handlers/user"
+	"github.com/Olegsuus/GoChat/internal/tokens/jwt"
 
 	"log/slog"
 	"net/http"
 	"os"
 	"time"
 
-	"github.com/Olegsuus/Auth/internal/config"
-	serviceChat "github.com/Olegsuus/Auth/internal/services/chat"
-	serviceMessage "github.com/Olegsuus/Auth/internal/services/message"
-	services "github.com/Olegsuus/Auth/internal/services/user"
-	storageChat "github.com/Olegsuus/Auth/internal/storage/chat"
-	storageMessage "github.com/Olegsuus/Auth/internal/storage/message"
-	db "github.com/Olegsuus/Auth/internal/storage/mongo"
-	storage "github.com/Olegsuus/Auth/internal/storage/user"
+	"github.com/Olegsuus/GoChat/internal/config"
+	serviceChat "github.com/Olegsuus/GoChat/internal/services/chat"
+	serviceMessage "github.com/Olegsuus/GoChat/internal/services/message"
+	services "github.com/Olegsuus/GoChat/internal/services/user"
+	storageChat "github.com/Olegsuus/GoChat/internal/storage/chat"
+	storageMessage "github.com/Olegsuus/GoChat/internal/storage/message"
+	db "github.com/Olegsuus/GoChat/internal/storage/mongo"
+	storage "github.com/Olegsuus/GoChat/internal/storage/user"
 )
 
 type App struct {

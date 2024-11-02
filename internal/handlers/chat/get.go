@@ -6,6 +6,17 @@ import (
 	"net/http"
 )
 
+// Get godoc
+// @Summary      Получение информации о пользователе
+// @Description  Возвращает информацию о пользователе по email
+// @Tags         Пользователи
+// @Accept       json
+// @Produce      json
+// @Param        email  path      string  true  "Email пользователя"
+// @Success 	 200  "OK"
+// @Failure 	 400 "Неверные данные запроса"
+// @Failure 	 500  "Ошибка на сервере"
+// @Router       /user/{email} [get]
 func (h *ChatHandler) Get(c *gin.Context) {
 	IDStr := c.Param("id")
 	id, err := primitive.ObjectIDFromHex(IDStr)
