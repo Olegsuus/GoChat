@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	response2 "github.com/Olegsuus/GoChat/internal/handlers/response"
 	"github.com/Olegsuus/GoChat/internal/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -74,8 +75,10 @@ func (h *UserHandler) GoogleCallback(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Аутентификация прошла успешно",
-		"token":   jwtToken,
-	})
+	response := response2.TokenResponse{
+		Message: "Аутентификация прошла успешно",
+		Token:   jwtToken,
+	}
+
+	c.JSON(http.StatusOK, response)
 }

@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"github.com/Olegsuus/GoChat/internal/handlers/dto"
+	resp "github.com/Olegsuus/GoChat/internal/handlers/response"
 	"github.com/Olegsuus/GoChat/internal/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -49,8 +50,8 @@ func (h *UserHandler) Register(c *gin.Context) {
 		return
 	}
 
-	response := gin.H{
-		"_id": id,
+	response := resp.RegisterResponse{
+		ID: id.Hex(),
 	}
 
 	c.JSON(http.StatusOK, response)

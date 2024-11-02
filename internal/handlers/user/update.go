@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/Olegsuus/GoChat/internal/handlers/dto"
+	resp "github.com/Olegsuus/GoChat/internal/handlers/response"
 	"github.com/Olegsuus/GoChat/internal/models"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -34,8 +35,8 @@ func (h *UserHandler) ResetPassword(c *gin.Context) {
 		return
 	}
 
-	response := gin.H{
-		"Success": true,
+	response := resp.SuccessResponse{
+		Success: true,
 	}
 
 	c.JSON(http.StatusOK, response)
@@ -73,8 +74,8 @@ func (h *UserHandler) UpdateProfile(c *gin.Context) {
 		return
 	}
 
-	response := gin.H{
-		"Success": true,
+	response := resp.SuccessResponse{
+		Success: true,
 	}
 
 	c.JSON(http.StatusOK, response)

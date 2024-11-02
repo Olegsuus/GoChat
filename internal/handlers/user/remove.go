@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	resp "github.com/Olegsuus/GoChat/internal/handlers/response"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
@@ -31,8 +32,8 @@ func (h *UserHandler) Remove(c *gin.Context) {
 		return
 	}
 
-	response := gin.H{
-		"Success": true,
+	response := resp.SuccessResponse{
+		Success: true,
 	}
 
 	c.JSON(http.StatusOK, response)

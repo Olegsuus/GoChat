@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/Olegsuus/GoChat/internal/handlers/dto"
+	resp "github.com/Olegsuus/GoChat/internal/handlers/response"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
@@ -43,7 +44,7 @@ func (h *ChatHandler) Add(c *gin.Context) {
 		return
 	}
 
-	response := handlers.ChatResponse{
+	response := resp.ChatResponse{
 		Chat: chat,
 	}
 

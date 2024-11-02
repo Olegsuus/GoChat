@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/Olegsuus/GoChat/internal/handlers/dto"
+	resp "github.com/Olegsuus/GoChat/internal/handlers/response"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
@@ -51,8 +52,8 @@ func (h *MessageHandler) SendMessage(c *gin.Context) {
 		return
 	}
 
-	response := gin.H{
-		"message": message,
+	response := resp.MessageResponse{
+		Message: message,
 	}
 
 	c.JSON(http.StatusOK, response)

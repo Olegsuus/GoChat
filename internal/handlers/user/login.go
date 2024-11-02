@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"github.com/Olegsuus/GoChat/internal/handlers/dto"
+	resp "github.com/Olegsuus/GoChat/internal/handlers/response"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -39,8 +40,8 @@ func (h *UserHandler) Login(c *gin.Context) {
 		return
 	}
 
-	response := gin.H{
-		"token": token,
+	response := resp.TokenResponse{
+		Token: token,
 	}
 
 	c.JSON(http.StatusOK, response)
