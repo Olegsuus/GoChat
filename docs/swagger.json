@@ -63,19 +63,29 @@
         "/auth/google/login": {
             "get": {
                 "description": "Перенаправляет пользователя на страницу авторизации Google",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "Аутентификация"
                 ],
                 "summary": "Вход через Google",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Состояние запроса",
+                        "name": "state",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Код авторизации от Google",
+                        "name": "code",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "302": {
+                        "description": "Redirect to Google"
                     },
                     "500": {
                         "description": "Ошибка на сервере"
@@ -149,6 +159,41 @@
                         "description": "ID чата",
                         "name": "chat_id",
                         "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Неверные данные запроса"
+                    },
+                    "500": {
+                        "description": "Ошибка на сервере"
+                    }
+                }
+            }
+        },
+        "/chats/{:id}": {
+            "get": {
+                "description": "Возвращает информацию о пользователе по email",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Пользователи"
+                ],
+                "summary": "Получение информации о пользователе",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id чата",
+                        "name": "id",
+                        "in": "path",
                         "required": true
                     }
                 ],

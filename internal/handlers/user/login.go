@@ -48,14 +48,14 @@ func (h *UserHandler) Login(c *gin.Context) {
 }
 
 // GoogleLogin godoc
-// @Summary			Вход через Google
-// @Description		Перенаправляет пользователя на страницу авторизации Google
-// @Tags			Аутентификация
-// @Accept			json
-// @Produce			json
-// @Success 	 	200  "OK"
-// @Failure 	 	500  "Ошибка на сервере"
-// @Router       	/auth/google/login [get]
+// @Summary      Вход через Google
+// @Description  Перенаправляет пользователя на страницу авторизации Google
+// @Tags         Аутентификация
+// @Param        state  query     string  true  "Состояние запроса"
+// @Param        code   query     string  true  "Код авторизации от Google"
+// @Success      302  "Redirect to Google"
+// @Failure      500  "Ошибка на сервере"
+// @Router       /auth/google/login [get]
 func (h *UserHandler) GoogleLogin(c *gin.Context) {
 	state := generateStateOauthCookie(c)
 	url := h.oauthConfig.AuthCodeURL(state)

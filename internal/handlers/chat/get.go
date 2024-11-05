@@ -12,11 +12,11 @@ import (
 // @Tags         Пользователи
 // @Accept       json
 // @Produce      json
-// @Param        email  path      string  true  "Email пользователя"
+// @Param        id  path      string  true  "id чата"
 // @Success 	 200  "OK"
 // @Failure 	 400 "Неверные данные запроса"
 // @Failure 	 500  "Ошибка на сервере"
-// @Router       /user/{email} [get]
+// @Router       /chats/{:id} [get]
 func (h *ChatHandler) Get(c *gin.Context) {
 	IDStr := c.Param("id")
 	id, err := primitive.ObjectIDFromHex(IDStr)

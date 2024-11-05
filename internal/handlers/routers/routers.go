@@ -5,7 +5,6 @@ package routers
 import (
 	ChatHandlers "github.com/Olegsuus/GoChat/internal/handlers/chat"
 	messageHandlers "github.com/Olegsuus/GoChat/internal/handlers/message"
-	"github.com/Olegsuus/GoChat/internal/handlers/middleware"
 	UserHandlers "github.com/Olegsuus/GoChat/internal/handlers/user"
 	services "github.com/Olegsuus/GoChat/internal/services/user"
 	"github.com/Olegsuus/GoChat/internal/tokens/jwt"
@@ -41,7 +40,7 @@ func SetupRoutes(
 		api.GET("/auth/google/callback", userHandler.GoogleCallback)
 
 		authGroup := api.Group("/user")
-		authGroup.Use(middleware.AuthMiddleware(tokenManager, userService))
+		//authGroup.Use(middleware.AuthMiddleware(tokenManager, userService))
 		{
 			authGroup.POST("/password/reset", userHandler.ResetPassword)
 			authGroup.PATCH("/profile", userHandler.UpdateProfile)
@@ -49,7 +48,7 @@ func SetupRoutes(
 		}
 
 		chatGroup := api.Group("/chats")
-		chatGroup.Use(middleware.AuthMiddleware(tokenManager, userService))
+		//chatGroup.Use(middleware.AuthMiddleware(tokenManager, userService))
 		{
 			chatGroup.POST("/", chatHandler.Add)
 			chatGroup.GET("/:id", chatHandler.Get)
@@ -57,7 +56,7 @@ func SetupRoutes(
 		}
 
 		messageGroup := api.Group("/messages")
-		messageGroup.Use(middleware.AuthMiddleware(tokenManager, userService))
+		//messageGroup.Use(middleware.AuthMiddleware(tokenManager, userService))
 		{
 			messageGroup.POST("/", messageHandler.SendMessage)
 			messageGroup.GET("/chat/:chat_id", messageHandler.GetMessages)

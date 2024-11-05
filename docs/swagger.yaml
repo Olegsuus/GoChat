@@ -119,14 +119,21 @@ paths:
       - Аутентификация
   /auth/google/login:
     get:
-      consumes:
-      - application/json
       description: Перенаправляет пользователя на страницу авторизации Google
-      produces:
-      - application/json
+      parameters:
+      - description: Состояние запроса
+        in: query
+        name: state
+        required: true
+        type: string
+      - description: Код авторизации от Google
+        in: query
+        name: code
+        required: true
+        type: string
       responses:
-        "200":
-          description: OK
+        "302":
+          description: Redirect to Google
         "500":
           description: Ошибка на сервере
       summary: Вход через Google
@@ -158,6 +165,29 @@ paths:
       summary: Создание нового чата
       tags:
       - Чаты
+  /chats/{:id}:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает информацию о пользователе по email
+      parameters:
+      - description: id чата
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Неверные данные запроса
+        "500":
+          description: Ошибка на сервере
+      summary: Получение информации о пользователе
+      tags:
+      - Пользователи
   /chats/ws:
     get:
       consumes:
