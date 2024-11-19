@@ -37,7 +37,7 @@ type Config struct {
 func LoadConfig() (*Config, error) {
 	viper.SetConfigName("local")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".")
+	viper.AddConfigPath("config/")
 
 	viper.AutomaticEnv()
 
