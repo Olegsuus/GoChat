@@ -21,7 +21,7 @@ func (s *MessageStorage) Add(ctx context.Context, message *models.Message) (prim
 	}
 
 	id, ok := result.InsertedID.(primitive.ObjectID)
-	if ok {
+	if !ok {
 		return primitive.NilObjectID, fmt.Errorf("ошибка при получении id сообщения: %s", err)
 	}
 

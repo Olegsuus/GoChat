@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/Olegsuus/GoChat/internal/handlers/dto"
-	resp "github.com/Olegsuus/GoChat/internal/handlers/response"
+	dto2 "github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/dto"
+	resp "github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/response"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
@@ -21,7 +21,7 @@ import (
 // @Failure 	 500  "Ошибка на сервере"
 // @Router       /messages [post]
 func (h *MessageHandler) SendMessage(c *gin.Context) {
-	var dto dto.SendMessageDTO
+	var dto dto2.SendMessageDTO
 
 	if err := c.ShouldBindJSON(&dto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Неверный формат данных"})

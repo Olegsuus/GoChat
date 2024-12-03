@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
-	response2 "github.com/Olegsuus/GoChat/internal/handlers/response"
+	response2 "github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/response"
 	"github.com/Olegsuus/GoChat/internal/models"
 	"github.com/gin-gonic/gin"
 	"net/http"

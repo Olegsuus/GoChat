@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/Olegsuus/GoChat/internal/handlers/dto"
-	resp "github.com/Olegsuus/GoChat/internal/handlers/response"
+	dto2 "github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/dto"
+	resp "github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/response"
 	"github.com/Olegsuus/GoChat/internal/models"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -22,7 +22,7 @@ import (
 // @Failure 	 500  "Ошибка на сервере"
 // @Router       /user/password/reset [post]
 func (h *UserHandler) ResetPassword(c *gin.Context) {
-	var dto dto.ResetPasswordDTO
+	var dto dto2.ResetPasswordDTO
 
 	if err := c.ShouldBindJSON(&dto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Неверный формат данных"})

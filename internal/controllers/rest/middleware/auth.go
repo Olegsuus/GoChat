@@ -6,15 +6,25 @@ import (
 	"github.com/Olegsuus/GoChat/internal/tokens/jwt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strings"
 )
 
 func AuthMiddleware(tokenManager *jwt.JWTManager, userService *services.ServicesUser) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		tokenString := c.GetHeader("Authorization")
-		if tokenString == "" {
+		authHeader := c.GetHeader("Authorization")
+		if authHeader == "" {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Требуется аутентификация"})
 			return
 		}
+
+		// Разделяем заголовок на "Bearer" и сам токен
+		parts := strings.SplitN(authHeader, " ", 2)
+		if len(parts) != 2 || parts[0] != "Bearer" {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Недействительный токен"})
+			return
+		}
+
+		tokenString := parts[1]
 
 		claims, err := tokenManager.Validate(tokenString)
 		if err != nil {

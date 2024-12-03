@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/Olegsuus/GoChat/internal/handlers/dto"
-	resp "github.com/Olegsuus/GoChat/internal/handlers/response"
+	dto2 "github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/dto"
+	resp "github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/response"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
@@ -21,14 +21,21 @@ import (
 // @Failure 		500  "Ошибка на сервере"
 // @Router       	/chats [post]
 func (h *ChatHandler) Add(c *gin.Context) {
-	var dto dto.AddChatDTO
+	var dto dto2.AddChatDTO
 
 	if err := c.ShouldBindJSON(&dto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Неверный формат данных"})
 		return
 	}
 
-	var participantIDs []primitive.ObjectID
+	userIDStr, exists := c.Get("userID")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Неавторизованный пользователь"})
+		return
+	}
+	userID, _ := primitive.ObjectIDFromHex(userIDStr.(string))
+
+	participantIDs := []primitive.ObjectID{userID}
 	for _, idStr := range dto.ParticipantIDs {
 		id, err := primitive.ObjectIDFromHex(idStr)
 		if err != nil {

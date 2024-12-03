@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	resp "github.com/Olegsuus/GoChat/internal/handlers/response"
+	resp "github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/response"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"

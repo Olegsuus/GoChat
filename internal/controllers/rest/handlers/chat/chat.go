@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"github.com/Olegsuus/GoChat/internal/handlers/ws"
+	"github.com/Olegsuus/GoChat/internal/controllers/ws"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -27,13 +27,19 @@ var upgrader = websocket.Upgrader{
 // @Failure 	500  "Ошибка на сервере"
 // @Router       /chats/ws [get]
 func (h *ChatHandler) ServeWS(c *gin.Context) {
-	userIDStr, exists := c.Get("id")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Неавторизованный пользователь"})
+	tokenString := c.Query("token")
+	if tokenString == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Требуется аутентификация"})
 		return
 	}
 
-	userID := userIDStr.(string)
+	claims, err := h.tm.Validate(tokenString)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Недействительный токен"})
+		return
+	}
+
+	userID := claims.UserID
 
 	chatIDStr := c.Query("chat_id")
 	if chatIDStr == "" {

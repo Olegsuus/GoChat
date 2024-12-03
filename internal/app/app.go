@@ -4,10 +4,10 @@ package app
 import (
 	"context"
 	"fmt"
-	"github.com/Olegsuus/GoChat/internal/handlers/chat"
-	messageHandlers "github.com/Olegsuus/GoChat/internal/handlers/message"
-	"github.com/Olegsuus/GoChat/internal/handlers/routers"
-	HandlerUser "github.com/Olegsuus/GoChat/internal/handlers/user"
+	"github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/chat"
+	messageHandlers "github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/message"
+	HandlerUser "github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/user"
+	"github.com/Olegsuus/GoChat/internal/controllers/rest/routers"
 	"github.com/Olegsuus/GoChat/internal/tokens/jwt"
 
 	"log/slog"
@@ -40,19 +40,6 @@ func NewApp(cfg *config.Config) (*App, error) {
 		return nil, err
 	}
 
-	chatStore := storageChat.RegisterStorageChat(mongoStorage)
-	messageStore := storageMessage.RegisterStorageMessage(mongoStorage)
-
-	chatSvc := serviceChat.RegisterChatService(chatStore, logger)
-	messageSvc := serviceMessage.RegisterServiceMessage(messageStore, logger)
-
-	chatHandler := handlers.RegisterChatHandler(chatSvc, messageSvc)
-	messageHandler := messageHandlers.RegisterMessageHandlers(messageSvc)
-
-	userStorage := storage.RegisterStorage(mongoStorage)
-
-	serviceUser := services.RegisterServices(userStorage, logger)
-
 	tokenExpiry, err := time.ParseDuration(cfg.JWT.Expiry)
 	if err != nil {
 		return nil, fmt.Errorf("не удалось распарсить срок действия токена: %w", err)
@@ -60,9 +47,21 @@ func NewApp(cfg *config.Config) (*App, error) {
 
 	tokenManager := jwt.NewJWTManager(cfg.JWT.Secret, tokenExpiry)
 
+	chatStore := storageChat.RegisterStorageChat(mongoStorage)
+	messageStore := storageMessage.RegisterStorageMessage(mongoStorage)
+
+	chatSvc := serviceChat.RegisterChatService(chatStore, logger)
+	messageSvc := serviceMessage.RegisterServiceMessage(messageStore, logger)
+
+	chatHandler := handlers.RegisterChatHandler(chatSvc, messageSvc, tokenManager)
+	messageHandler := messageHandlers.RegisterMessageHandlers(messageSvc)
+
+	userStorage := storage.RegisterStorage(mongoStorage)
+
+	serviceUser := services.RegisterServices(userStorage, logger)
+
 	userHandler := HandlerUser.RegisterHandlers(serviceUser, tokenManager, cfg)
 
-	// Настройка маршрутов с передачей userService
 	router := routers.SetupRoutes(userHandler, tokenManager, chatHandler, messageHandler, serviceUser)
 
 	addr := ":" + cfg.Server.Port

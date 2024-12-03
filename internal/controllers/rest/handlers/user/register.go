@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"context"
-	"github.com/Olegsuus/GoChat/internal/handlers/dto"
-	resp "github.com/Olegsuus/GoChat/internal/handlers/response"
+	dto2 "github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/dto"
+	resp "github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/response"
 	"github.com/Olegsuus/GoChat/internal/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -22,7 +22,7 @@ import (
 // @Failure 	 500  "Ошибка на сервере"
 // @Router       /register [post]
 func (h *UserHandler) Register(c *gin.Context) {
-	var dto dto.RegisterNewUserDTO
+	var dto dto2.RegisterNewUserDTO
 
 	if err := c.ShouldBindJSON(&dto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Неверный формат данных"})

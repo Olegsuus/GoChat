@@ -17,12 +17,12 @@ func (s *ChatStorage) Add(ctx context.Context, chat *models.Chat) (primitive.Obj
 
 	result, err := s.db.ChatCollection.InsertOne(ctx, chat)
 	if err != nil {
-		log.Printf("%s: %w", op, err)
-		return primitive.NilObjectID, fmt.Errorf("ошибка при создании чата: %s", err)
+		log.Printf("%s: %v", op, err)
+		return primitive.NilObjectID, fmt.Errorf("ошибка при создании чата: %w", err)
 	}
 
 	id, ok := result.InsertedID.(primitive.ObjectID)
-	if ok {
+	if !ok {
 		return primitive.NilObjectID, fmt.Errorf("ошибка при получении id добавленого чата: %s", err)
 	}
 
