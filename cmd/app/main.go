@@ -4,12 +4,15 @@ import (
 	"context"
 	"github.com/Olegsuus/GoChat/internal/app"
 	"github.com/Olegsuus/GoChat/internal/config"
+	"github.com/Olegsuus/GoChat/internal/logs"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	_ "github.com/Olegsuus/GoChat/docs"
 )
 
 // @title           Chat API
@@ -40,6 +43,12 @@ func main() {
 	if err != nil {
 		log.Fatalf("Ошибка инициализации приложения: %v", err)
 	}
+
+	logger, err := logs.InitLogger(cfg.Env, cfg.Log.LogFile)
+	if err != nil {
+		log.Fatalf("Ошибка инициализации логгера: %v", err)
+	}
+	defer logger.Close()
 
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM)

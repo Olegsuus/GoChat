@@ -27,11 +27,17 @@ type ServerConfig struct {
 	Port string `mapstructure:"port" yaml:"port"`
 }
 
+type Log struct {
+	LogFile string `mapstructure:"log_file" yaml:"log_file"`
+}
+
 type Config struct {
+	Env    string       `mapstructure:"env" yaml:"env"`
 	Mongo  MongoSetting `mapstructure:"mongo" yaml:"mongo"`
 	JWT    JWTConfig    `mapstructure:"jwt" yaml:"jwt"`
 	Server ServerConfig `mapstructure:"server" yaml:"server"`
 	Google GoogleConfig `mapstructure:"google" yaml:"google"`
+	Log    Log          `mapstructure:"log" yaml:"log"`
 }
 
 func LoadConfig() (*Config, error) {
