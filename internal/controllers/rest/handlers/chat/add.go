@@ -33,6 +33,7 @@ func (h *ChatHandler) Add(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Неавторизованный пользователь"})
 		return
 	}
+
 	userID, _ := primitive.ObjectIDFromHex(userIDStr.(string))
 
 	participantIDs := []primitive.ObjectID{userID}
