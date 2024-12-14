@@ -32,6 +32,7 @@ type App struct {
 }
 
 func NewApp(cfg *config.Config) (*App, error) {
+
 	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{}))
 
 	mongoStorage, err := db.NewMongoStorage(cfg)
@@ -78,6 +79,7 @@ func NewApp(cfg *config.Config) (*App, error) {
 		Logger:      logger,
 		UserHandler: userHandler,
 	}, nil
+
 }
 
 func (app *App) Start() error {
