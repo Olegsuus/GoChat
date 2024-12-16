@@ -4,7 +4,7 @@ package app
 import (
 	"context"
 	"fmt"
-	"github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/chat"
+	handlers "github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/chat"
 	messageHandlers "github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/message"
 	HandlerUser "github.com/Olegsuus/GoChat/internal/controllers/rest/handlers/user"
 	"github.com/Olegsuus/GoChat/internal/controllers/rest/routers"
