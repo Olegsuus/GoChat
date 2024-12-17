@@ -53,7 +53,7 @@ func SetupRoutes(
 			authGroup.DELETE("/user", userHandler.Remove)
 		}
 
-		chatGroup := api.Group("/chats")
+		chatGroup := api.Group("/chat")
 		chatGroup.Use(authMiddleware)
 		{
 			chatGroup.POST("/", chatHandler.Add)

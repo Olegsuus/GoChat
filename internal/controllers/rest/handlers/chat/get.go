@@ -16,7 +16,7 @@ import (
 // @Success 	 200  "OK"
 // @Failure 	 400 "Неверные данные запроса"
 // @Failure 	 500  "Ошибка на сервере"
-// @Router       /chats/{:id} [get]
+// @Router       /chat/{:id} [get]
 func (h *ChatHandler) Get(c *gin.Context) {
 	IDStr := c.Param("id")
 	id, err := primitive.ObjectIDFromHex(IDStr)

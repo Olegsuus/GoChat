@@ -19,7 +19,7 @@ import (
 // @Success 		200  "OK"
 // @Failure 		400 "Неверные данные запроса"
 // @Failure 		500  "Ошибка на сервере"
-// @Router       	/chats [post]
+// @Router       	/chat [post]
 func (h *ChatHandler) Add(c *gin.Context) {
 	var dto dto2.AddChatDTO
 

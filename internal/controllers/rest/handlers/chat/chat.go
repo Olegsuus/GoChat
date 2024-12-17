@@ -25,7 +25,7 @@ var upgrader = websocket.Upgrader{
 // @Success 	200  "OK"
 // @Failure 	400 "Неверные данные запроса"
 // @Failure 	500  "Ошибка на сервере"
-// @Router       /chats/ws [get]
+// @Router       /chat/ws [get]
 func (h *ChatHandler) ServeWS(c *gin.Context) {
 	tokenString := c.Query("token")
 	if tokenString == "" {
