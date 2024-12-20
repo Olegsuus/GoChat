@@ -19,12 +19,14 @@ func (c *Client) ReadPump() {
 		c.Hub.Unregister <- c
 		c.Conn.Close()
 	}()
+
 	c.Conn.SetReadLimit(512)
 	c.Conn.SetReadDeadline(time.Now().Add(60 * time.Second))
 	c.Conn.SetPongHandler(func(string) error {
 		c.Conn.SetReadDeadline(time.Now().Add(60 * time.Second))
 		return nil
 	})
+
 	for {
 		var msg Message
 		err := c.Conn.ReadJSON(&msg)
@@ -40,11 +42,13 @@ func (c *Client) ReadPump() {
 }
 
 func (c *Client) WritePump() {
+
 	ticker := time.NewTicker(54 * time.Second)
 	defer func() {
 		ticker.Stop()
 		c.Conn.Close()
 	}()
+
 	for {
 		select {
 		case message, ok := <-c.Send:
