@@ -24,6 +24,7 @@ func SetupRoutes(
 	messageHandler *messageHandlers.MessageHandler,
 	userService *services.ServicesUser,
 ) *gin.Engine {
+
 	router := gin.Default()
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -32,6 +33,7 @@ func SetupRoutes(
 	corsConfig.AllowAllOrigins = true
 	corsConfig.AllowMethods = []string{"GET", "POST", "PATCH", "DELETE", "OPTIONS"}
 	corsConfig.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
+
 	router.Use(cors.New(corsConfig))
 
 	authMiddleware := middleware.AuthMiddleware(tokenManager, userService)
